@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+    <script type="text/javascript" src= "./SymbolCode.js"> </script>
+
+</head>
+<body>
+<table >
+  <tbody id="demo"></tbody>
+</table>
+<br><br>
+<table >
+  <tbody id="demo1"></tbody>
+</table>
+<script type="text/javascript">
+
+
+  var i = 0;                  //  set your counter to 1
+myLoop(); 
+function myLoop() {         //  create a loop function
+  setTimeout(function() {
+  let link = "https://ewmw.edelweiss.in/api/Market/Process/EquityDetails/" + +Code[Symbol.indexOf(NSESymbol[i])];
+  getJesonData(link, log);
+   i++;                    
+    if (i < NSESymbol.length) {           //  if the counter < 10, call the loop function
+      console.log(i)
+      myLoop();             //  ..  again which will trigger another 
+    }                       //  ..  setTimeout()
+  }, 100)
+}
+  function log(data) {
+    let scrap = JSON.parse(JSON.parse(data));
+    let beta = scrap.JsonData.equityDetails.Beta;
+    let MarketCap = scrap.JsonData.companyMarketPrice[0].MarketCap;
+    let sball = scrap.JsonData.companyMarketPrice[0].Symbol;
+    if(scrap){
+      document.getElementById('demo').innerHTML += beta +"---"+sball+",";
+      document.getElementById('demo1').innerHTML += MarketCap +"---"+sball+",-,";
+    }
+  }
+
+  // for(let j=0;j<betaFilter.length;j++){
+
+  //     document.getElementById('demo1').innerHTML += betaFilter[j] +"<br>";
+  // }
+
+  function getJesonData(link, callback) {
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", link, true);
+    if (xmlhttp) {
+      xmlhttp.send();
+    }
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        callback(this.responseText);
+      }
+    };
+  }
+</script>
+</body>
+</html>

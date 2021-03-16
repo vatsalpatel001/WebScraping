@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+    <script type="text/javascript" src= "./SymbolCode.js"> </script>
+
+</head>
+<body>
+<table >
+  <tbody id="demo"></tbody>
+</table>
+<script type="text/javascript">
+
+
+
+
+
+
+  let count=0;
+  let HL=[];
+let max =0;
+
+var i = 0;                  //  set your counter to 1
+myLoop(); 
+function myLoop() {         //  create a loop function
+  setTimeout(function() {   //  call a 3s setTimeout when the loop is called
+    // console.log('hello'); 
+
+
+
+
+  let xmlhttp = new XMLHttpRequest();
+
+
+ 
+xmlhttp.open(
+  "GET",
+  "https://ewmw.edelweiss.in/api/Market/Process/EquityDetailsMarket/"+Code[Symbol.indexOf(NSESymbol[i])],
+  true
+);
+
+
+
+
+if(xmlhttp){
+
+xmlhttp.send(); 
+}
+
+
+
+
+
+
+
+
+
+     // for (i = 0; i < 6000; i++) {
+
+
+
+
+
+
+
+
+
+
+
+
+xmlhttp.onreadystatechange = function () {
+  if (this.readyState == 4 && this.status == 200) {
+    let data =JSON.parse(JSON.parse(this.responseText));
+
+
+
+
+    // let data = JSON.parse(this.responseText).feed.entry;
+    // let data = this.responseText;
+    // let data =JSON.parse(JSON.stringify(JSON.parse(this.responseText)).replace(/(?:\\[rn])+/g, ""));
+if(data){
+ let H = Math.floor(data.JsonData.companyMarketPrice[0].HighDay);
+ let L = Math.floor(data.JsonData.companyMarketPrice[0].LowDay);
+ let C = Math.floor(data.JsonData.companyMarketPrice[0].ClosePreviousDay);
+let HLR = (((H-L)/H)*100) +"-"+data.JsonData.companyMarketPrice[0].CompanyCode;
+ HL.push(HLR)
+if((((H-L)/H)*100) >max){
+  max = (((H-L)/H)*100);
+console.log(max +" "+HLR)
+}
+ // let O =data.JsonData.companyMarketPrice[0].OpenDay;
+ // let VWAP =data.JsonData.companyMarketPrice[0].ATP;
+
+// let Pivot = (H+L+C)/3;
+  // console.log(H,L,C,Pivot)
+  // count++;
+  // console.log(data)
+      // document.getElementById("demo").innerHTML +=data.JsonData.Symbol+"-"+data.JsonData.companyMarketPrice[0].CompanyCode+",<br>";
+      // document.getElementById("demo").innerHTML += data.JsonData.companyMarketPrice[0].LTP +"<br>"+data.JsonData.companyMarketPrice[0].ATP;
+// console.log(data.JsonData.Symbol)
+}
+else{
+  return;
+}
+   
+
+  }
+};
+
+      //  your code here
+    i++;                    //  increment the counter
+    if (i < NSESymbol.length) {           //  if the counter < 10, call the loop function
+      myLoop();             //  ..  again which will trigger another 
+    }                       //  ..  setTimeout()
+  }, 100)
+
+    }
+
+
+// console.log(HL)
+
+</script>
+</body>
+</html>

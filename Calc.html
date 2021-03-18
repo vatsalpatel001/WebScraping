@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<div>
+		<input type="radio" checked><label>Buy Target</label>
+		<input type="radio" name=""><label>Buy Target</label>
+		<input type="radio" name=""><label>Calc Qty</label>
+		
+	</div>
+	<div>
+		<input id="Qty" placeholder="Qty.">
+		<input id="Bp" placeholder="Buy Price">
+		<input id="Sp" placeholder="Sell Price">
+		<input id="SLp" placeholder="Stop Loss Price">
+	</div>
+		<input  id="Gain" placeholder="Gain">
+		<input  placeholder="Loss">
+	<div>
+	</div>
+	<div>
+		<input  id="Target" placeholder="Target %">
+		<input  placeholder="Risk %">
+	</div>
+	<div>
+		<input  id="Broke" placeholder="Brokrage">
+		<input id="STT" placeholder="STT">
+		<input  id="TOC" placeholder="TurnoverCharge">
+		<input  id="SDC" placeholder="Stemp Duty">
+		<input  id="GST" placeholder="GST">
+		<input id="Tc" placeholder="Total">
+		
+	</div>
+
+
+
+
+
+
+<script type="text/javascript">
+
+var GetEl = (e) => {return document.querySelector(e)};// GetEl("#master span")
+var GetEls=  (e) => {return document.querySelectorAll(e)};
+// EvtsBind(("#master span" ,"input",start);
+var EvtsBind = (e,n,t) =>{let c=GetEls(e);c.forEach(e=>{e.addEventListener(n,t)})}
+// elmsClsRemv(("#master span" ,"num");
+var EvtsRemove = (e,n,t) =>{let c=GetEls(e);c.forEach(e=>{e.removeEventListener(n,t)})}
+var elmsClsRemv = (e,l) =>{GetEls(e).forEach(e=>{e.classList.remove(l)})}
+var elmsClsAdd = (e,l) =>{GetEls(e).forEach(e=>{e.classList.add(l)})}
+var Nv=(Sel) =>{return parseFloat(GetEl("#"+Sel).value)}
+
+	,t=Target.value;
+function GainCalc() {
+	let q=Nv("Qty"),b=Nv("Bp"),s=Nv("Sp"),c=Nv("Tc");
+	let qb=q*b,qs=q*s;
+	console.log(qb)
+	Gain.value =qs-qb-c;}
+function QtyCalc(){
+	let b=Nv("Bp"),s=Nv("Sp"),c=Nv("Tc"),g=Nv("Gain");
+ Qty.value = (g+c)/(s-b);}
+function TargetCal(){
+	let b=Nv("Bp"),s=Nv("Sp");
+	Target.value =(((s-b)/b)*100) +"%";
+}
+
+function STTCalc(){
+	let q=Nv("Qty"),b=Nv("Bp"),s=Nv("Sp");
+	let qb=q*b,qs=q*s;
+	STT.value = (qs)*0.00025;
+}
+function TOCCalc(){
+	let q=Nv("Qty"),b=Nv("Bp"),s=Nv("Sp");
+	let qb=q*b,qs=q*s;
+	TOC.value = (qb+qs)*0.0000335;
+}
+function SDCCalc(){
+	let q=Nv("Qty"),b=Nv("Bp"),s=Nv("Sp");
+	let qb=q*b,qs=q*s;
+	SDC.value = (qb)*0.00003;
+}
+function GSTCalc(){
+	let TOC=Nv("TOC"),SDC=Nv("SDC"),STT=Nv("STT"),Broke=Nv("Broke");
+		GST.value = (TOC+SDC+STT+Broke)*0.18;
+}
+
+EvtsBind("input","input",GSTCalc)
+</script>
+
+
+
+
+
+</body>
+</html>

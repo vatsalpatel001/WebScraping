@@ -5,27 +5,28 @@
 </head>
 <body>
 	<div>
-		<input type="radio" checked><label>Buy Target</label>
-		<input type="radio" name=""><label>Buy Target</label>
-		<input type="radio" name=""><label>Calc Qty</label>
+		<!-- <input type="radio" checked><label>Calc Gain</label> -->
+		<!-- <input type="radio" checked><label>Buy Target</label> -->
+		<!-- <input type="radio" name=""><label>Sell Target</label> -->
+		<!-- <input type="radio" name=""><label>Calc Qty</label> -->
 		
 	</div>
 	<div>
 		<input id="Qty" placeholder="Qty.">
 		<input id="Bp" placeholder="Buy Price">
 		<input id="Sp" placeholder="Sell Price">
-		<input id="SLp" placeholder="Stop Loss Price">
+		<!-- <input id="SLp" placeholder="Stop Loss Price"> -->
 	</div>
-		<input  id="Gain" placeholder="Gain">
-		<input  placeholder="Loss">
 	<div>
+		<input  id="Gain" placeholder="Gain">
+		<!-- <input  placeholder="Loss"> -->
 	</div>
 	<div>
 		<input  id="Target" placeholder="Target %">
-		<input  placeholder="Risk %">
+		<!-- <input  placeholder="Risk %"> -->
 	</div>
 	<div>
-		<input  id="Broke" placeholder="Brokrage">
+		<input  id="Broke" placeholder="Brokrage" value="40">
 		<input id="STT" placeholder="STT">
 		<input  id="TOC" placeholder="TurnoverCharge">
 		<input  id="SDC" placeholder="Stemp Duty">
@@ -51,7 +52,7 @@ var elmsClsRemv = (e,l) =>{GetEls(e).forEach(e=>{e.classList.remove(l)})}
 var elmsClsAdd = (e,l) =>{GetEls(e).forEach(e=>{e.classList.add(l)})}
 var Nv=(Sel) =>{return parseFloat(GetEl("#"+Sel).value)}
 
-	,t=Target.value;
+	let radio = "Gain"
 function GainCalc() {
 	let q=Nv("Qty"),b=Nv("Bp"),s=Nv("Sp"),c=Nv("Tc");
 	let qb=q*b,qs=q*s;
@@ -84,8 +85,31 @@ function GSTCalc(){
 	let TOC=Nv("TOC"),SDC=Nv("SDC"),STT=Nv("STT"),Broke=Nv("Broke");
 		GST.value = (TOC+SDC+STT+Broke)*0.18;
 }
+function TotalChargeCalc(){
+	let TOC=Nv("TOC"),SDC=Nv("SDC"),STT=Nv("STT"),Broke=Nv("Broke"),GST=Nv("GST");
+		Tc.value = (TOC+SDC+STT+Broke+GST);
+}
 
-EvtsBind("input","input",GSTCalc)
+function LossCalc(){
+let q=Nv("Qty"),b=Nv("Bp"),s=Nv("Sp"),sl=Nv("SLp"),c=Nv("Tc");
+	let qb=q*b,qs=q*s,qsl=q*sl;
+	// console.log(qb)
+	// Gain.value =qs-qb-c;
+}
+
+function gainEvt(){
+	STTCalc();
+	TOCCalc();
+	SDCCalc();
+	GSTCalc();
+	TotalChargeCalc();
+	GainCalc();
+	TargetCal();
+}
+
+
+
+EvtsBind("input","input",gainEvt);
 </script>
 
 

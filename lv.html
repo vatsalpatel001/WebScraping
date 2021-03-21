@@ -35,7 +35,7 @@ function myLoop() {         //  create a loop function
  
 xmlhttp.open(
   "GET",
-  "https://ewmw.edelweiss.in/api/Market/Process/EquityDetailsMarket/"+Code[Symbol.indexOf(NSESymbol[i])],
+  "https://ewmw.edelweiss.in/api/Market/Process/EquityDetailsMarket/"+Code[Symbol.indexOf("SBIN")],
   true
 );
 
@@ -87,6 +87,7 @@ let HLR = (((H-L)/H)*100) +"-"+data.JsonData.companyMarketPrice[0].CompanyCode;
 if((((H-L)/H)*100) >max){
   max = (((H-L)/H)*100);
 console.log(max +" "+HLR)
+console.log(data)
 }
  // let O =data.JsonData.companyMarketPrice[0].OpenDay;
  // let VWAP =data.JsonData.companyMarketPrice[0].ATP;

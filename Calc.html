@@ -2,6 +2,46 @@
 <html>
 <head>
 	<title></title>
+	<style type="text/css">
+		.iHome {
+    display: inline-block;
+    padding: 1px;
+    background: #ffeb3b;
+    margin: 2px;
+    border-radius: 2px;
+    width: max-content;
+
+    /*box-shadow: 0px 0px 1px lightgrey;*/
+}
+label{
+	padding: 5px;
+	font-size: 12px;
+	font-weight: bolder;
+}
+label:after{
+	content: " :"
+}
+input{
+	width: 80px;
+	height: 30px;
+	border:none;
+	background: inherit;
+	/*text-align: center;*/
+	font-size: 14px;
+
+}
+#Qty,#Slp,#Bp,#SP{
+
+	border-bottom: 2px solid black;
+}
+.mst{
+	box-shadow: 0px 0px 2px dimgray;
+	margin: 10px;
+	/*height: 100px;*/
+	/*overflow: auto;*/
+}
+
+	</style>
 </head>
 <body>
 	<div>
@@ -11,33 +51,39 @@
 		<!-- <input type="radio" name=""><label>Calc Qty</label> -->
 		
 	</div>
-	<div>
-		<input id="Qty" placeholder="Qty.">
-		<input id="Bp" placeholder="Buy Price">
-		<input id="Sp" placeholder="Sell Price">
-		<!-- <input id="SLp" placeholder="Stop Loss Price"> -->
+	<div class="mst">
+		<div class="iHome"><label>Qty.</label><input type="number" id="Qty"  value="100"></div>
+		<div class="iHome"><label>Buy Price</label><input type="number" id="Bp" value="100"></div>
+		<div class="iHome"><label>Sell Price</label><input type="number" id="Sp" value="110"></div>
+		<div class="iHome"><label>Stop Loss Price</label><input type="number" id="SLp" value="115"></div>		
 	</div>
-	<div>
-		<input  id="Gain" placeholder="Gain">
-		<!-- <input  placeholder="Loss"> -->
-	</div>
-	<div>
-		<input  id="Target" placeholder="Target %">
+	
+	<div class="mst">
+		<label style="display: block;">If Target Hit!!!!</label>
+		<div class="iHome"><label>Gain</label><input  id="Gain"></div>
+		<div class="iHome"><label>Target %</label><input  id="Target" ></div>
 		<!-- <input  placeholder="Risk %"> -->
 	</div>
-	<div>
-		<input  id="Broke" placeholder="Brokrage" value="40">
-		<input id="STT" placeholder="STT">
-		<input  id="TOC" placeholder="TurnoverCharge">
-		<input  id="SDC" placeholder="Stemp Duty">
-		<input  id="GST" placeholder="GST">
-		<input id="Tc" placeholder="Total">
+	<div class="mst">
+		<label style="display: block;">If Stop Loss Hit!!!!</label>
+		<div class="iHome"><label>Loss</label><input  id="Loss"></div>
+		<div class="iHome"><label>Risk %</label><input  id="Risk" ></div>
+	</div>
+	<div class="mst">
+		<label style="display: block;">Charges</label>
+		<div class="iHome"><label>Brokrage</label><input  id="Broke"  value="40"></div>
+		<div class="iHome"><label>STT</label><input id="STT" ></div>
+		<div class="iHome"><label>TurnoverCharge</label><input  id="TOC" ></div>
+		<div class="iHome"><label>Stemp Duty</label><input  id="SDC" ></div>
+		<div class="iHome"><label>GST</label><input  id="GST" ></div>
+		<div class="iHome"><label>Total</label><input id="Tc" ></div>
 		
 	</div>
 
 
 
-
+<div class="mst">Long trade !, so you buy stocks before you sell stocks, So(Stoploss < Buy Price)</div>
+	<div class="mst">Short trade !, so you sell stocks before you buy stocks, So  (Stoploss > Sell Price)</div>
 
 
 <script type="text/javascript">
@@ -63,7 +109,7 @@ function QtyCalc(){
  Qty.value = (g+c)/(s-b);}
 function TargetCal(){
 	let b=Nv("Bp"),s=Nv("Sp");
-	Target.value =(((s-b)/b)*100) +"%";
+	Target.value =(((s-b)/b)*100);
 }
 
 function STTCalc(){
@@ -93,11 +139,24 @@ function TotalChargeCalc(){
 function LossCalc(){
 let q=Nv("Qty"),b=Nv("Bp"),s=Nv("Sp"),sl=Nv("SLp"),c=Nv("Tc");
 	let qb=q*b,qs=q*s,qsl=q*sl;
+if(sl>s){
+	Loss.value = qs-qsl-c;
+	Risk.value=(((s-sl)/sl)*100)
+}
+else if(sl<b){
+	Loss.value = qsl-qb-c;
+	Risk.value=(((sl-b)/b)*100)
+}
+else{
+	Loss.value ="wrong SL";
+	Risk.value="%";
+}``
 	// console.log(qb)
 	// Gain.value =qs-qb-c;
 }
-
+gainEvt();
 function gainEvt(){
+
 	STTCalc();
 	TOCCalc();
 	SDCCalc();
@@ -105,6 +164,10 @@ function gainEvt(){
 	TotalChargeCalc();
 	GainCalc();
 	TargetCal();
+	LossCalc();
+	// 	GetEls("input").forEach(elm=>{
+	// 	elm.value = parseFloat(elm.value).toFixed(2)
+	// })
 }
 
 

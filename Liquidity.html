@@ -15,31 +15,40 @@
 </table>
 <script type="text/javascript">
 
+let scrap_mst={};
 
   var i = 0;                  //  set your counter to 1
 myLoop(); 
 function myLoop() {         //  create a loop function
   setTimeout(function() {
-  // let link = "https://ewmw.edelweiss.in/api/Market/Process/EquityDetails/" + +Code[Symbol.indexOf(NSESymbol[i])];
+  let link = "https://ewmw.edelweiss.in/api/Market/Process/EquityDetails/" + +Code[Symbol.indexOf(NSESymbol[i])];
   // let link = "https://ewmw.edelweiss.in/api/Market/Process/EquityDetails/" + +Code[Symbol.indexOf("SBIN")];
   getJesonData(link, log);
    i++;                    
-    if (i < 2) {           //  if the counter < 10, call the loop function
+    if (i < NSESymbol.length) {           //  if the counter < 10, call the loop function
       console.log(i)
       myLoop();             //  ..  again which will trigger another 
-    }                       //  ..  setTimeout()
-  }, 100)
+    } else{
+      console.log(scrap_mst)
+    }                      //  ..  setTimeout()
+  }, 10)
 }
   function log(data) {
     let scrap = JSON.parse(JSON.parse(data));
-    console.log(scrap)
+    let sball = scrap.JsonData.equityDetails.Symbol;
+    // let Sector = scrap.JsonData.equityDetails.Sector.replace(" ","");
+    let SubIndustry = scrap.JsonData.equityDetails.SubIndustry.replace(" ","");
+    // console.log(Sector)
+    // scrap_mst[sball]=scrap;
+    // console.log(scrap)
     let beta = scrap.JsonData.equityDetails.Beta;
     let MarketCap = scrap.JsonData.companyMarketPrice[0].MarketCap;
-    let sball = scrap.JsonData.companyMarketPrice[0].Symbol;
-    if(scrap){
-      document.getElementById('demo').innerHTML += beta +"---"+sball+",";
-      document.getElementById('demo1').innerHTML += MarketCap +"---"+sball+",-,";
-    }
+    let Volu = scrap.JsonData.companyMarketPrice[0].Vol;
+    // let Liquid = parseFloat(Volu/MarketCap).toFixed(2);
+    // if(scrap){
+      document.getElementById('demo').innerHTML +=  sball +" "+SubIndustry +" "+beta +" "+MarketCap+" "+Volu +"<br>";
+    //   document.getElementById('demo1').innerHTML += beta +"---"+Volu +"---"+MarketCap +"---"+Liquid +"---"+sball+",-,";
+    // }
   }
 
   // for(let j=0;j<betaFilter.length;j++){

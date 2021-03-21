@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	    <script type="text/javascript" src= "./SymbolCode.js"> </script>
+
+</head>
+<body>
+	<div id="Symbol">
+		<label>Symbol</label>
+		<input type="" name="" value="SBIN">
+	</div>
+	<div id="Category">
+		<label>Stock Category</label>
+		<label >large</label>
+		<label >10</label>
+	</div>
+
+<script type="text/javascript">
+	var GetEl = (e) => {return document.querySelector(e)};// GetEl("#master span")
+var GetEls=  (e) => {return document.querySelectorAll(e)};
+// EvtsBind(("#master span" ,"input",start);
+var EvtsBind = (e,n,t) =>{let c=GetEls(e);c.forEach(e=>{e.addEventListener(n,t)})}
+// elmsClsRemv(("#master span" ,"num");
+var EvtsRemove = (e,n,t) =>{let c=GetEls(e);c.forEach(e=>{e.removeEventListener(n,t)})}
+var elmsClsRemv = (e,l) =>{GetEls(e).forEach(e=>{e.classList.remove(l)})}
+var elmsClsAdd = (e,l) =>{GetEls(e).forEach(e=>{e.classList.add(l)})}
+var Nv=(Sel) =>{return (GetEl("#"+Sel).value)}
+
+
+let CategoryLabels = GetEls("#Category label");
+
+EvtsBind("#Symbol input","input",CatgryFind);
+
+function CatgryFind(argument) {
+let Sym = Nv("Symbol input").toUpperCase();
+let link = "https://ewmw.edelweiss.in/api/Market/Process/EquityDetails/" + +Code[Symbol.indexOf(Sym)];
+getJesonData(link, log);
+ function log(data) {
+    let scrap = JSON.parse(JSON.parse(data));
+    console.log(scrap)
+
+}
+let Catgry ="small";
+let Points =0;
+if((LargeNSE.indexOf(Sym)>-1)){
+	Catgry="large";
+	Points =10;
+}
+else if((MidNSE.indexOf(Sym)>-1)){
+	Catgry="Mid";
+	Points =5;
+}
+CategoryLabels[1].innerHTML =Catgry;
+CategoryLabels[2].innerHTML =Points;
+}
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
